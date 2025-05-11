@@ -9,7 +9,7 @@ import os
 MONGO_URL = os.environ.get("MONGO_URL", "mongodb+srv://cinemashor0:RYRUL115JCOM47R4@myfilterbot.cdxakym.mongodb.net/?retryWrites=true&w=majority&appName=MyFilterBot")
 client = MongoClient(MONGO_URL)
 db = client["Myfilterbot"]  # You can change this to match your DB name
-collection = db["Telegramfiles"]  # Collection name
+collection = db["Telegram_files"]  # Collection name
 
 # Only allow admins or specific users
 ALLOWED_USERS = [5301956231]  # Replace with your Telegram user ID
