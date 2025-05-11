@@ -87,6 +87,45 @@ async def Jisshu_start():
     await web.TCPSite(app, bind_address, PORT).start()
     await idle()
 
+import logging
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, CallbackContext
+from info import API_HASH, API_ID, BOT_TOKEN
+
+# Logging setup
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+
+logger = logging.getLogger(__name__)
+
+# Start command handler
+def start(update: Update, context: CallbackContext):
+    update.message.reply_text("Hello! I am your Movie Bot. Use /add <movie name> to save a movie.")
+
+# Add command handler
+def add_command(update: Update, context: CallbackContext):
+    if context.args:
+        name = ' '.join(context.args)
+        # Optional: Save to file
+        with open("data.txt", "a") as f:
+            f.write(name + "\n")
+        update.message.reply_text(f"'{name}' ko successfully add kar diya gaya!")
+    else:
+        update.message.reply_text("Kripya /add ke baad koi naam likhiye. Example: /add Inception")
+
+def main():
+    updater = Updater(BOT_TOKEN, use_context=True)
+    dispatcher = updater.dispatcher
+
+    # Register handlers
+    dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(CommandHandler("add", add_command))
+
+    # Start the Bot
+    updater.start_polling()
+    updater.idle()
 
 if __name__ == '__main__':
     try:
