@@ -87,45 +87,18 @@ async def Jisshu_start():
     await web.TCPSite(app, bind_address, PORT).start()
     await idle()
 
-import logging
-from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
-from info import API_HASH, API_ID, BOT_TOKEN
+from pyrogram import Client, filters
+from pyrogram.types import Message
 
-# Logging setup
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
-logger = logging.getLogger(__name__)
-
-# Start command handler
-def start(update: Update, context: CallbackContext):
-    update.message.reply_text("Hello! I am your Movie Bot. Use /add <movie name> to save a movie.")
-
-# Add command handler
-def add_command(update: Update, context: CallbackContext):
-    if context.args:
-        name = ' '.join(context.args)
-        # Optional: Save to file
-        with open("data.txt", "a") as f:
-            f.write(name + "\n")
-        update.message.reply_text(f"'{name}' ko successfully add kar diya gaya!")
+@Client.on_message(filters.command("add") & filters.private)
+async def add_handler(client, message: Message):
+    args = message.text.split(maxsplit=1)
+    if len(args) == 2:
+        movie_name = args[1]
+        # TODO: यहाँ आप movie_name को डेटाबेस या लिस्ट में सेव कर सकते हैं
+        await message.reply_text(f"✅ '{movie_name}' को लिस्ट में जोड़ दिया गया।")
     else:
-        update.message.reply_text("Kripya /add ke baad koi naam likhiye. Example: /add Inception")
-
-def main():
-    updater = Updater(BOT_TOKEN, use_context=True)
-    dispatcher = updater.dispatcher
-
-    # Register handlers
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("add", add_command))
-
-    # Start the Bot
-    updater.start_polling()
-    updater.idle()
+        await message.reply_text("❌ कृपया मूवी का नाम दें।\nउदाहरण: /add Animal")
 
 if __name__ == '__main__':
     try:
