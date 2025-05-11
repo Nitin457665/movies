@@ -25,9 +25,6 @@ MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/+dJ8smy8yGsQwMz
 CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1001869198347').split()]
 #---------------------------------------------------------------
 #---------------------------------------------------------------
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://cinemashor0:RYRUL115JCOM47R4@myfilterbot.cdxakym.mongodb.net/?retryWrites=true&w=majority&appName=MyFilterBot")
-DATABASE_NAME = environ.get('DATABASE_NAME', "Myfilterbot")
-COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 #---------------------------------------------------------------
 #---------------------------------------------------------------
 #----------- There will be channel id add in all these ---------
